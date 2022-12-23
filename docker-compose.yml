@@ -1,0 +1,32 @@
+version: '3'
+services:
+  api:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    container_name: currency_converter
+    networks:
+      - network
+    volumes:
+      - .:/app
+    hostname: currency-converter.com
+    depends_on:
+      - mongodb
+    ports: 
+      - '5000:5000'
+    command: sh -c 'npm start'
+  
+  mongodb:
+    hostname: currency-converter-mongo.com
+    image: mongo
+    ports:
+      - "27017:27017"
+    restart: 'on-failure:2'
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge
