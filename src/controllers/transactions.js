@@ -7,5 +7,12 @@ module.exports = {
         } catch (err) {
             next(err)
         }
+    },
+    async listTransactions (req, res, next) {
+        try {
+            await service.transactions.listTransactions(req, res)
+        } catch (err) {
+            next(err)
+        }
     }
 }

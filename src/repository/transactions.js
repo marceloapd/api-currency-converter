@@ -12,5 +12,9 @@ module.exports = {
             date: request.data.date
         })
         return transactionsInsert
+    },
+    async getTransactionsById (id) {
+        const transactions = await models.transactions.find({ user_id: id })
+        return transactions
     }
 }

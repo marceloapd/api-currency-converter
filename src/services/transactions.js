@@ -23,5 +23,17 @@ module.exports = {
             const data = prepareData(persistTransaction)
             res.send(data)
         }
+    },
+
+    async listTransactions (req, res) {
+        const transactions = await repository.transactions.getTransactionsById(req.query.user_id)
+        if (transactions.length === 0) {
+            res.send(`no transactions for user_id: ${req.query.user_id}`)
+        } else {
+            transactions.forEach((element, index) => {
+                transactions[index] = prepareData(element)
+            })
+            res.send(transactions)
+        }
     }
 }
