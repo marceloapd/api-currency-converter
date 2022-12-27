@@ -16,8 +16,8 @@ function prepareData (obj) {
 
 module.exports = {
     async currencyConverter (req, res) {
-        const request = await axios.apilayer.get(`https://api.apilayer.com/exchangerates_data/convert?to=${req.query.to}&from=${req.query.from}&amount=${req.query.amount}`)
-        request.user_id = req.query.user_id
+        const request = await axios.apiLayer.get(`https://api.apilayer.com/exchangerates_data/convert?to=${req.query.to}&from=${req.query.from}&amount=${req.query.amount}`)
+        request.data.user_id = req.query.user_id
         const persistTransaction = await repository.transactions.persistTransactions(request)
         if (request.status === 200) {
             const data = prepareData(persistTransaction)
