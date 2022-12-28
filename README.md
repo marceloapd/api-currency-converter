@@ -62,7 +62,7 @@ A inicialização da api parte do arquivo `server.js`
 ## 📨 Utilizando a API
 > Se preferir é possivel utilizar o postman
 
-Collection link: https://www.getpostman.com/collections/7fcf093536f18a03685d
+Collection link: https://api.postman.com/collections/18630257-43a5df45-cf5b-49eb-9c6f-019f7a847002?access_key=PMAT-01GNCZYH48PP00NEXXGHBYR20R
 ### 📠 Visualização dos logs do ELK
 > Nesse end-point é possivel acompanhar os logs de erro em tempo real.
 
