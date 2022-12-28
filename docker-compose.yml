@@ -1,0 +1,66 @@
+version: '3'
+services:
+  api:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    environment:
+      NODE_PORT: 5000
+      NODE_ENV: development
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    container_name: currency_converter
+    networks:
+      - network
+    volumes:
+      - .:/app
+    hostname: currency-converter.com
+    depends_on:
+      - mongodb
+      - elasticsearch
+    links:
+      - elasticsearch
+    ports: 
+      - '5000:5000'
+    command: sh -c 'npm start'
+  
+  mongodb:
+    hostname: currency-converter-mongo.com
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    restart: 'on-failure:2'
+    networks:
+      - network
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.14.1
+    container_name: my-kibana
+    ports:
+      - 5601:5601
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    links:
+      - elasticsearch
+    networks: 
+      - network
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.1
+    container_name: my_elasticsearch
+    ports: 
+      - 9200:9200
+      - 9300:9300
+    environment:
+      discovery.type: single-node
+    volumes:
+      - ./esdata/:/usr/share/elasticsearch/data/
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge
